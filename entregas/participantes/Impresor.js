@@ -4,67 +4,67 @@ export default class Impresor {
   constructor(tableParticipantes, tableInfo) {
     this._tableParticipantes = tableParticipantes;
     this._tableInfo = tableInfo;
-    this._numtalleres = 0;
     this._sumDays = 0;
     this._Disponibles = 0;
     this._Ocupados = 0;
+    this._numParcipantes = 0;
     this._Parcipantes = [];
-
     this._initTables();
   }
 
   _initTables() {
     //localStorage.removeItem("Parcipantes")
-    let lsTalleres = JSON.parse(localStorage.getItem("Parcipantes"));
-    if (lsTalleres === null) {
+    let lsParticipantes = JSON.parse(localStorage.getItem("Parcipantes"));
+    if (lsParticipantes === null) {
       return;
     }
-    lsTalleres.forEach((t, index) => {
-      t.inicio = new Date(t.inicio);
-      t.termino = new Date(t.termino);
+    lsParticipantes.forEach((t, index) => {
+      t.nacimiento = new Date(t.nacimiento);
       this._addToTable(new Invocador(t));
     })
   }
   _addToTable(info) {
     //calculo de lugares
     this._Disponibles = Number(info.lugares);
-    this._Ocupados = info.lugares - this._Disponibles;
+    this._Disponibles = this._Disponibles - this._Ocupados;
+    if (this._Disponibles === 0 )
+    {
+      Swal.fire({
+        type: "error" ,
+        title: "Error",
+        text: "El Taller no tiene espacios disponibles"
+      })
+      return;
+    }
     //tabla
     let row = this._tableParticipantes.insertRow(-1);
-    let cellName = row.insertCell(0);
-    let cellInicio = row.insertCell(1);
-    let cellTermino = row.insertCell(2);
-    let cellDias = row.insertCell(3);
-    let cellLugaresDisponibles = row.insertCell(4);
-    let cellLugaresOcupados = row.insertCell(5);
-    let cellHoras = row.insertCell(6);
+    let cellTaller = row.insertCell(0);
+    let cellName = row.insertCell(1);
+    let cellEmail = row.insertCell(2);
+    let cellEdad = row.insertCell(3);
     row.insertCell(7);
     row.insertCell(8);
+    cellTaller.innerHTML = info.taller;
     cellName.innerHTML = info.name;
-    cellInicio.innerHTML = info.getInicioAsString();
-    cellTermino.innerHTML = info.getTerminoAsString();
-    cellDias.innerHTML = info.getTime();
-    cellLugaresDisponibles.innerHTML = this._Disponibles;
-    cellLugaresOcupados.innerHTML = this._Ocupados;
-    cellHoras.innerHTML = info.horas;
+    cellEmail.innerHTML = info.email;
+    cellEdad.innerHTML = getAge();
+    this._Ocupados++;
     this._numParcipantes++; // this._numParcipantes = this._numParcipantes + 1
-    this._sumDays += info.getTime(); // this._sumDays = this._sumDays + info.getTime()
+    this._sumDays += getAge(); // this._sumDays = this._sumDays + info.getTime()
 
     this._tableInfo.rows[0].cells[1].innerHTML = this._numParcipantes;
 
     this._tableInfo.rows[1].cells[1].innerHTML =
       this._sumDays / this._numParcipantes;
 
-    let objTalleres = {
+    let objParticipantes = {
+      taller: info.taller,
       name: info.name,
-      inicio: info.inicio,
-      termino: info.termino,
-      lugares: info.lugares,
-      horas: info.horas
+      email: info.email
     };
-    this._Parcipantes.push(objTalleres);
+    this._Parcipantes.push(objParticipantes);
   }
-  _findTaller(name)
+  _findParticipante(name)
   {
     let foundAt = -1;
     this._Talleres.forEach((t, index) => {
@@ -77,7 +77,7 @@ export default class Impresor {
     return foundAt;
   }
 
-  addFechas(info) {
+  addInvocador(info) {
     let found = this._findTaller(info.name)
     if(found >= 0)
     {

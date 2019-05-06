@@ -12,7 +12,7 @@ class Main {
       let form = document.querySelector("#form");
 
       if (form.checkValidity() === true) {
-        let name = document.querySelector("#name").value;
+        let nameTaller = document.querySelector("#nameTaller").value;
         let lugares = document.querySelector("#lugares").value;
         let inicio = document.querySelector("#inicio").value;
         inicio = inicio.split("-");
@@ -23,7 +23,7 @@ class Main {
         let horas = document.querySelector("#horas").value;
 
         let objTalleres = {
-          name: name,
+          taller: nameTaller,
           lugares: lugares,
           inicio: iniciofinal,
           termino: terminofinal,

@@ -6,8 +6,7 @@ export default class Taller {
     this._tableInfo = tableInfo;
     this._numtalleres = 0;
     this._sumDays = 0;
-    this._Disponibles = 0;
-    this._Ocupados = 0;
+    this._lugares = 0;
     this._Talleres = [];
 
     this._initTables();
@@ -25,28 +24,146 @@ export default class Taller {
       this._addToTable(new Fechas(t));
     })
   }
+  _addEditDeleteRowtotable(row, info){
+    let btnEdit = document.createElement("input");
+    btnEdit.type = "button";
+    btnEdit.value = "Editar";
+    btnEdit.className = "btn btn-success";
+    btnEdit.addEventListener("click", () => {
+      this._editRow(row, info);
+    })
+
+    let btnDelete = document.createElement("input");
+    btnDelete.type = "button";
+    btnDelete.value = "Eliminar";
+    btnDelete.className = "btn btn-danger";
+    
+    let btnParticipantes = document.createElement("input");
+    btnParticipantes.type = "button";
+    btnParticipantes.value = "participantes";
+    btnParticipantes.className = "btn btn-success";
+    btnParticipantes.addEventListener("click", () => {
+      
+    })
+
+    row.cells[6].innerHTML = "";
+    row.cells[6].appendChild(btnEdit);
+    row.cells[7].innerHTML = "";
+    row.cells[7].appendChild(btnDelete);
+    row.cells[8].innerHtml = "";
+    row.cells[8].appendChild(btnParticipantes);
+  }
+
+  _saveEdit(row, info, newparticipante)
+  {
+    let pos = this.__findTaller(info.taller);
+    this._Talleres[pos] = newparticipante;
+    localStorage.setItem("Talleres", JSON.stringify(this._Talleres));
+    this._cancelEdit(row, new Fechas(newparticipante));
+  }
+
+  _cancelEdit(row, info)
+  {
+    row.cells[0].innerHTML = "";
+    row.cells[0].innerHTML = info.taller;
+    row.cells[1].innerHTML = "";
+    row.cells[1].innerHTML = info.getInicioAsString();
+    row.cells[2].innerHTML = "";
+    row.cells[2].innerHTML = info.getTerminoAsString();
+    row.cells[3].innerHTML = "";
+    row.cells[3].innerHTML = info.getTime();
+    row.cells[4].innerHTML = "";
+    row.cells[4].innerHTML = this._lugares;
+    row.cells[5].innerHTML = "";
+    row.cells[5].innerHTML = info.horas;
+
+    this._addEditDeleteRowtotable(row, info);
+
+  }
+  _editRow(row, info)
+  {
+    let italler = document.createElement("input");
+    italler.type = "text";
+    italler.value = info.taller;
+    row.cells[0].innerHTML = "";
+    row.cells[0].appendChild(italler);
+
+    let iInicio = document.createElement("input");
+    iInicio.type = "date";
+    iInicio.value = info.getInicioForDate();
+    row.cells[1].innerHTML = "";
+    row.cells[1].appendChild(iInicio);
+
+    let iTermino = document.createElement("input");
+    iTermino.type = "date";
+    iTermino.value = info.getTerminoForDate(); 
+    row.cells[2].innerHTML = "";
+    row.cells[2].appendChild(iTermino);
+
+    let iLugares = document.createElement("input");
+    iLugares.type = "number";
+    iLugares.value = this._lugares; 
+    row.cells[4].innerHTML = "";
+    row.cells[4].appendChild(iLugares);
+
+    let iHoras = document.createElement("input");
+    iHoras.type = "number";
+    iHoras.value = info.horas; 
+    row.cells[5].innerHTML = "";
+    row.cells[5].appendChild(iHoras);
+
+    let btnSave = document.createElement("input");
+    btnSave.type = "button";
+    btnSave.value = "Grabar";
+    btnSave.className = "btn btn-success";
+    row.cells[6].innerHTML = "";
+    row.cells[6].appendChild(btnSave);
+    btnSave.addEventListener("click", () => {
+      
+    let newparticipante = 
+    {
+      taller: italler,
+      inicio: iInicio,
+      termino: iTermino,
+      lugares: iLugares,
+      horas: iHoras
+    };
+      this._saveEdit(row, info, newparticipante);
+    })
+
+    let btnCancel = document.createElement("input");
+    btnCancel.type = "button";
+    btnCancel.value = "Cancelar";
+    btnCancel.className = "btn btn-danger";
+    row.cells[7].innerHTML = "";
+    row.cells[7].appendChild(btnCancel);
+    btnCancel.addEventListener("click", () => {
+      this._cancelEdit(row, info);
+    })
+
+    console.log(row,info);
+  }
   _addToTable(info) {
     //calculo de lugares
-    this._Disponibles = Number(info.lugares);
-    this._Ocupados = info.lugares - this._Disponibles;
+    this._lugares = Number(info.lugares);
     //tabla
     let row = this._tableTaller.insertRow(-1);
     let cellName = row.insertCell(0);
     let cellInicio = row.insertCell(1);
     let cellTermino = row.insertCell(2);
     let cellDias = row.insertCell(3);
-    let cellLugaresDisponibles = row.insertCell(4);
-    let cellLugaresOcupados = row.insertCell(5);
-    let cellHoras = row.insertCell(6);
+    let cellLugares = row.insertCell(4);
+    let cellHoras = row.insertCell(5);
+    row.insertCell(6);
     row.insertCell(7);
     row.insertCell(8);
-    cellName.innerHTML = info.name;
+    cellName.innerHTML = info.taller;
     cellInicio.innerHTML = info.getInicioAsString();
     cellTermino.innerHTML = info.getTerminoAsString();
     cellDias.innerHTML = info.getTime();
-    cellLugaresDisponibles.innerHTML = this._Disponibles;
-    cellLugaresOcupados.innerHTML = this._Ocupados;
+    cellLugares.innerHTML = this._lugares;
     cellHoras.innerHTML = info.horas;
+    this._addEditDeleteRowtotable(row, employee); //botones
     this._numtalleres++; // this._numtalleres = this._numtalleres + 1
     this._sumDays += info.getTime(); // this._sumDays = this._sumDays + info.getTime()
 
@@ -56,7 +173,7 @@ export default class Taller {
       this._sumDays / this._numtalleres;
 
     let objTalleres = {
-      name: info.name,
+      taller: info.taller,
       inicio: info.inicio,
       termino: info.termino,
       lugares: info.lugares,
@@ -64,11 +181,11 @@ export default class Taller {
     };
     this._Talleres.push(objTalleres);
   }
-  _findTaller(name)
+  _findTaller(taller)
   {
     let foundAt = -1;
     this._Talleres.forEach((t, index) => {
-      if (t.name === name)
+      if (t.taller === taller)
       {
         foundAt = index;
         return;
@@ -78,7 +195,7 @@ export default class Taller {
   }
 
   addFechas(info) {
-    let found = this._findTaller(info.name)
+    let found = this._findTaller(info.taller)
     if(found >= 0)
     {
       Swal.fire({

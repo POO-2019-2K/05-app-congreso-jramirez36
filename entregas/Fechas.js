@@ -1,6 +1,6 @@
 export default class Fechas {
   constructor(info) {
-    this._name = info.name.toUpperCase();
+    this._taller = info.taller.toUpperCase();
     this._lugares = info.lugares;
     this._inicio = info.inicio;
     this._termino = info.termino;
@@ -25,8 +25,8 @@ export default class Fechas {
     
   }
 
-  get name() {
-    return this._name;
+  get taller() {
+    return this._taller;
   }
 
   get lugares() {
@@ -52,13 +52,13 @@ export default class Fechas {
 
   getInicioForDate(){ 
     let {inicio} = this;
-    let date = inicio.getFullYear() + "-" + this._getNumberAs2Digits(inicio.getMonth()+1) + "-" + this._getNumberAs2Digits(inicio.getDate()+1);
+    let date = inicio.getFullYear() + "-" + this._getNumberAs2Digits(inicio.getMonth()+1) + "-" + this._getNumberAs2Digits(inicio.getDate());
     return date;
   }
 
   getInicioAsString() {
     let date =
-      (this._inicio.getDate()+1) +
+      (this._inicio.getDate()) +
       "/" +
       this._months[this._inicio.getMonth()] +
       "/" +
@@ -67,13 +67,13 @@ export default class Fechas {
   }
   getTerminoForDate(){ 
     let {termino} = this;
-    let date2 = termino.getFullYear() + "-" + this._getNumberAs2Digits(termino.getMonth()+1) + "-" + this._getNumberAs2Digits(termino.getDate()+1);
+    let date2 = termino.getFullYear() + "-" + this._getNumberAs2Digits(termino.getMonth()+1) + "-" + this._getNumberAs2Digits(termino.getDate());
     return date2;
   }
 
   getTerminoAsString() {
     let date2 =
-      (this._termino.getDate()+1) +
+      (this._termino.getDate()) +
       "/" +
       this._months[this._termino.getMonth()] +
       "/" +

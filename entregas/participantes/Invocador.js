@@ -29,7 +29,7 @@ export default class Invocador {
   get email() {
     return this._email;
   }
-  get nacimeinto() {
+  get nacimiento() {
     return this._nacimiento;
   }
 
