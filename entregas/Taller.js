@@ -42,9 +42,7 @@ export default class Taller {
     btnParticipantes.type = "button";
     btnParticipantes.value = "participantes";
     btnParticipantes.className = "btn btn-success";
-    btnParticipantes.addEventListener("click", () => {
-      
-    })
+    btnParticipantes.onclick="location.href='participantes.html'"
 
     row.cells[6].innerHTML = "";
     row.cells[6].appendChild(btnEdit);
@@ -56,7 +54,7 @@ export default class Taller {
 
   _saveEdit(row, info, newparticipante)
   {
-    let pos = this.__findTaller(info.taller);
+    let pos = this._findTaller(info.taller);
     this._Talleres[pos] = newparticipante;
     localStorage.setItem("Talleres", JSON.stringify(this._Talleres));
     this._cancelEdit(row, new Fechas(newparticipante));
@@ -140,8 +138,7 @@ export default class Taller {
     btnCancel.addEventListener("click", () => {
       this._cancelEdit(row, info);
     })
-
-    console.log(row,info);
+    row.cells[8].innerHTML = "";
   }
   _addToTable(info) {
     //calculo de lugares
@@ -163,7 +160,7 @@ export default class Taller {
     cellDias.innerHTML = info.getTime();
     cellLugares.innerHTML = this._lugares;
     cellHoras.innerHTML = info.horas;
-    this._addEditDeleteRowtotable(row, employee); //botones
+    this._addEditDeleteRowtotable(row, info); //botones
     this._numtalleres++; // this._numtalleres = this._numtalleres + 1
     this._sumDays += info.getTime(); // this._sumDays = this._sumDays + info.getTime()
 
