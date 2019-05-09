@@ -1,5 +1,4 @@
 import Fechas from "./Fechas.js";
-
 export default class Taller {
   constructor(tableTaller, tableInfo) {
     this._tableTaller = tableTaller;
@@ -132,11 +131,11 @@ export default class Taller {
       
     let newparticipante = 
     {
-      taller: italler,
-      inicio: iInicio,
-      termino: iTermino,
-      lugares: iLugares,
-      horas: iHoras
+      taller: italler.value,
+      lugares: iLugares.value,
+      inicio: iInicio.value,
+      termino: iTermino.value,
+      horas: iHoras.value,
     };
       this._saveEdit(row, info, newparticipante);
     })

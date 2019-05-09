@@ -52,7 +52,7 @@ export default class Fechas {
 
   getInicioForDate(){ 
     let {inicio} = this;
-    let date = inicio.getFullYear() + "-" + this._getNumberAs2Digits(inicio.getMonth()+1) + "-" + this._getNumberAs2Digits(inicio.getDate());
+    let date = inicio.getFullYear() + "-" + this._getNumberAs2Digits(inicio.getMonth()+1) + "-" + this._getNumberAs2Digits(inicio.getDate()+1);
     return date;
   }
 
@@ -67,7 +67,7 @@ export default class Fechas {
   }
   getTerminoForDate(){ 
     let {termino} = this;
-    let date2 = termino.getFullYear() + "-" + this._getNumberAs2Digits(termino.getMonth()+1) + "-" + this._getNumberAs2Digits(termino.getDate());
+    let date2 = termino.getFullYear() + "-" + this._getNumberAs2Digits(termino.getMonth()+1) + "-" + this._getNumberAs2Digits(termino.getDate()+1);
     return date2;
   }
 

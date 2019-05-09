@@ -14,18 +14,18 @@ export default class Impresor {
 
   _initTables() {
     //localStorage.removeItem("Parcipantes")
-    
     let taller = JSON.parse(localStorage.getItem("Talleres"));
     taller.forEach((t, index) => {
-      this._Disponibles = Number(t.lugares);
       this._nameTaller = t.taller;
+      this._Disponibles = Number(t.lugares);
+      
     })
     let lsParticipantes = JSON.parse(localStorage.getItem("Parcipantes"));
     if (lsParticipantes === null) {
       return;
     }
     lsParticipantes.forEach((p, index) => {
-      p.nacimiento = new Date(p.nacimiento);
+        p.nacimiento = new Date(p.nacimiento);
       this._addToTable(new Invocador(p));
     })
   }
@@ -33,6 +33,19 @@ export default class Impresor {
     //calculo de lugares
     this._Ocupados++;
     this._Disponibles = this._Disponibles - this._Ocupados;
+    if(this._Disponibles <= 0)
+    {
+      Swal.fire({
+        type: "error" ,
+        title: "Error",
+        text: "El taller no tiene espacios disponibles"
+      })
+      return;
+    }
+    else
+    {
+
+    }
     //tabla
     let row = this._tableParticipantes.insertRow(-1);
     let cellTaller = row.insertCell(0);
@@ -57,13 +70,15 @@ export default class Impresor {
     this._tableInfo.rows[3].cells[1].innerHTML = this._Ocupados;
 
     let objParticipantes = {
+      taller: this._nameTaller,
       name: info.name,
       email: info.email,
       nacimiento: info.nacimiento,
       ocupados: this._Ocupados
     };
     this._Parcipantes.push(objParticipantes);
-  }
+    }
+    
   _findParticipante(name)
   {
     let foundAt = -1;
