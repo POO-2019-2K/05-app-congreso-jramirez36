@@ -8,6 +8,7 @@ export default class Taller {
     this._lugares = 0;
     this._Ocupados = 0;
     this._Talleres = [];
+    this._ID = [];
 
     this._initTables();
   }
@@ -50,6 +51,13 @@ export default class Taller {
     btnParticipantes.value = "participantes";
     btnParticipantes.className = "btn btn-success";
     btnParticipantes.addEventListener("click", () => {
+      let nombretaller = 
+    {
+      taller: info.taller,
+      lugares: info.lugares,
+    };
+      this._ID.push(nombretaller);
+      localStorage.setItem("ID", JSON.stringify(this._ID));
       location.href='participantes.html';
     })
 

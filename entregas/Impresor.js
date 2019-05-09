@@ -14,7 +14,7 @@ export default class Impresor {
 
   _initTables() {
     //localStorage.removeItem("Parcipantes")
-    let taller = JSON.parse(localStorage.getItem("Talleres"));
+    let taller = JSON.parse(localStorage.getItem("ID"));
     taller.forEach((t, index) => {
       this._nameTaller = t.taller;
       this._Disponibles = Number(t.lugares);
