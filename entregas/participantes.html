@@ -19,6 +19,7 @@
       <p>Registro de empleados de la empresa</p>
     </div>
     <div class="container-fluid">
+        <div class="row col-12 justify-content-end "><button id="btnAdd" type="button" class="btn btn-primary" onclick="location.href='Taller.html'">volver</button></div>
       <div class="row">
         <!-- Formulario -->
         <div class="col-md-4 mb-5">
@@ -54,7 +55,7 @@
                 <div class="valid-feedback">Correcto!</div>
                 <div class="invalid-feedback">Introduzca una fecha válida</div>
               </div>
-              <button id="btnAdd" type="button" class="btn btn-primary">
+              <button id="btnAdd2" type="button" class="btn btn-primary">
                 Agregar
               </button>
             </form>
@@ -64,11 +65,19 @@
               <tbody>
                 <tr>
                   <td>Número de participantes:</td>
-                  <td id="numEmployees"></td>
+                  <td id="numparticipantes"></td>
                 </tr>
                 <tr>
                   <td>Edad promedio:</td>
-                  <td id="averageAge"></td>
+                  <td id="edad"></td>
+                </tr>
+                <tr>
+                    <td>lugares disponibles:</td>
+                    <td id="disponible "></td>
+                </tr>
+                <tr>
+                      <td>lugares ocupados:</td>
+                      <td id="ocupado"></td>
                 </tr>
               </tbody>
             </table>

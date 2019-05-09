@@ -60,7 +60,7 @@ export default class Invocador {
   getAge() {
     let oneDay = 24 * 60 * 60 * 1000;
     let oneYear = oneDay * 365;
-    let differenceMs = new Date() - this._birthday;
+    let differenceMs = new Date() - this._nacimiento;
     let age = Math.trunc(differenceMs / oneYear);
     return age;
   }

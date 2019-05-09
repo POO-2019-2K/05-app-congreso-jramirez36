@@ -7,13 +7,21 @@ export default class Taller {
     this._numtalleres = 0;
     this._sumDays = 0;
     this._lugares = 0;
+    this._Ocupados = 0;
     this._Talleres = [];
 
     this._initTables();
   }
 
   _initTables() {
-    //localStorage.removeItem("Talleres")
+    //localStorage.removeItem("Talleres") 
+    let lsParticipantes = JSON.parse(localStorage.getItem("Parcipantes"));
+    if (lsParticipantes === null) {
+      return;
+    }
+    lsParticipantes.forEach((p, index) => {
+      this._Ocupados = Number(p.ocupados);
+    })
     let lsTalleres = JSON.parse(localStorage.getItem("Talleres"));
     if (lsTalleres === null) {
       return;
@@ -42,14 +50,16 @@ export default class Taller {
     btnParticipantes.type = "button";
     btnParticipantes.value = "participantes";
     btnParticipantes.className = "btn btn-success";
-    btnParticipantes.onclick="location.href='participantes.html'"
+    btnParticipantes.addEventListener("click", () => {
+      location.href='participantes.html';
+    })
 
-    row.cells[6].innerHTML = "";
-    row.cells[6].appendChild(btnEdit);
     row.cells[7].innerHTML = "";
-    row.cells[7].appendChild(btnDelete);
-    row.cells[8].innerHtml = "";
-    row.cells[8].appendChild(btnParticipantes);
+    row.cells[7].appendChild(btnEdit);
+    row.cells[8].innerHTML = "";
+    row.cells[8].appendChild(btnDelete);
+    row.cells[9].innerHtml = "";
+    row.cells[9].appendChild(btnParticipantes);
   }
 
   _saveEdit(row, info, newparticipante)
@@ -73,7 +83,9 @@ export default class Taller {
     row.cells[4].innerHTML = "";
     row.cells[4].innerHTML = this._lugares;
     row.cells[5].innerHTML = "";
-    row.cells[5].innerHTML = info.horas;
+    row.cells[5].innerHTML = this._Ocupados;
+    row.cells[6].innerHTML = "";
+    row.cells[6].innerHTML = info.horas;
 
     this._addEditDeleteRowtotable(row, info);
 
@@ -107,15 +119,15 @@ export default class Taller {
     let iHoras = document.createElement("input");
     iHoras.type = "number";
     iHoras.value = info.horas; 
-    row.cells[5].innerHTML = "";
-    row.cells[5].appendChild(iHoras);
+    row.cells[6].innerHTML = "";
+    row.cells[6].appendChild(iHoras);
 
     let btnSave = document.createElement("input");
     btnSave.type = "button";
     btnSave.value = "Grabar";
     btnSave.className = "btn btn-success";
-    row.cells[6].innerHTML = "";
-    row.cells[6].appendChild(btnSave);
+    row.cells[7].innerHTML = "";
+    row.cells[7].appendChild(btnSave);
     btnSave.addEventListener("click", () => {
       
     let newparticipante = 
@@ -133,16 +145,17 @@ export default class Taller {
     btnCancel.type = "button";
     btnCancel.value = "Cancelar";
     btnCancel.className = "btn btn-danger";
-    row.cells[7].innerHTML = "";
-    row.cells[7].appendChild(btnCancel);
+    row.cells[8].innerHTML = "";
+    row.cells[8].appendChild(btnCancel);
     btnCancel.addEventListener("click", () => {
       this._cancelEdit(row, info);
     })
-    row.cells[8].innerHTML = "";
+    row.cells[9].innerHTML = "";
   }
   _addToTable(info) {
     //calculo de lugares
     this._lugares = Number(info.lugares);
+    this._lugares = this._lugares - this._Ocupados;
     //tabla
     let row = this._tableTaller.insertRow(-1);
     let cellName = row.insertCell(0);
@@ -150,15 +163,17 @@ export default class Taller {
     let cellTermino = row.insertCell(2);
     let cellDias = row.insertCell(3);
     let cellLugares = row.insertCell(4);
-    let cellHoras = row.insertCell(5);
-    row.insertCell(6);
+    let cellocupados = row.insertCell(5);
+    let cellHoras = row.insertCell(6);
     row.insertCell(7);
     row.insertCell(8);
+    row.insertCell(9);
     cellName.innerHTML = info.taller;
     cellInicio.innerHTML = info.getInicioAsString();
     cellTermino.innerHTML = info.getTerminoAsString();
     cellDias.innerHTML = info.getTime();
     cellLugares.innerHTML = this._lugares;
+    cellocupados.innerHTML = this._Ocupados;
     cellHoras.innerHTML = info.horas;
     this._addEditDeleteRowtotable(row, info); //botones
     this._numtalleres++; // this._numtalleres = this._numtalleres + 1

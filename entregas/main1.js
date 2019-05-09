@@ -1,26 +1,24 @@
 import Impresor from "./Impresor.js";
 import Invocador from "./Invocador.js";
 
-class Main {
+class Main1 {
   constructor() {
     let taller = new Impresor(
       document.querySelector("#Taller"),
       document.querySelector("#info")
     );
 
-    document.querySelector("#btnAdd").addEventListener("click", () => {
+    document.querySelector("#btnAdd2").addEventListener("click", () => {
       let form = document.querySelector("#form");
 
       if (form.checkValidity() === true) {
-        let nameTaller = document.querySelector("#nameTaller").value;
         let name = document.querySelector("#name").value;
-        let email = document.querySelector("#email").value;
+        let email = document.querySelector("#correo").value;
         let nacimiento = document.querySelector("#nacimiento").value;
         nacimiento = nacimiento.split("-");
         let Fnacimiento = new Date(nacimiento[0], nacimiento[1] - 1, nacimiento[2]);
 
         let objParticipantes = {
-          nameTaller = nameTaller,
           name: name,
           email: email,
           nacimiento: Fnacimiento
@@ -36,4 +34,4 @@ class Main {
   }
 }
 
-let m = new Main();
+let m = new Main1();
