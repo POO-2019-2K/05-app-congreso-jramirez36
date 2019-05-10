@@ -25,11 +25,13 @@ export default class Impresor {
       return;
     }
     lsParticipantes.forEach((p, index) => {
-        p.nacimiento = new Date(p.nacimiento);
+      p.nacimiento = new Date(p.nacimiento);
       this._addToTable(new Invocador(p));
     })
   }
   _addToTable(info) {
+    if(this._nameTaller === info.taller || this._Ocupados === 0 )
+    {
     //calculo de lugares
     this._Ocupados++;
     this._Disponibles = this._Disponibles - this._Ocupados;
@@ -78,7 +80,9 @@ export default class Impresor {
     };
     this._Parcipantes.push(objParticipantes);
     }
-    
+    return;
+  }
+  _
   _findParticipante(name)
   {
     let foundAt = -1;

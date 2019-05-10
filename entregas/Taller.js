@@ -51,6 +51,7 @@ export default class Taller {
     btnParticipantes.value = "participantes";
     btnParticipantes.className = "btn btn-success";
     btnParticipantes.addEventListener("click", () => {
+      this._limpiador();
       let nombretaller = 
     {
       taller: info.taller,
@@ -68,7 +69,11 @@ export default class Taller {
     row.cells[9].innerHtml = "";
     row.cells[9].appendChild(btnParticipantes);
   }
-
+  _limpiador()
+  {
+    localStorage.removeItem("ID");
+    console.log("ID");
+  }
   _saveEdit(row, info, newparticipante)
   {
     let pos = this._findTaller(info.taller);
