@@ -1,5 +1,7 @@
 export default class Invocador {
   constructor(info) {
+    this._taller = info.taller;
+    this._ocupados = info.ocupados;
     this._name = info.name.toUpperCase();
     this._email = info.email;
     this._nacimiento = info.nacimiento;
@@ -21,6 +23,14 @@ export default class Invocador {
     ];
     
   }
+  get taller() {
+    return this._taller;
+  }
+
+  get ocupados() {
+    return this._ocupados;
+  }
+
 
   get name() {
     return this._name;
